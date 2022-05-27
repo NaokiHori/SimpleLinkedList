@@ -3,17 +3,21 @@
 
 #include <stddef.h>
 
-typedef struct list_t_ {
-  char data;
+typedef struct llist_t_ {
+  // pointer to the stored data
+  void *data;
+  // size of data
+  size_t data_size;
+  bool data_is_copied;
+  // pointer to the next node
   void *next;
-} list_t;
+} llist_t;
 
-/* inspect list */
-extern int list_get_length(size_t *length, list_t *list);
-extern int list_output(list_t *list);
-extern int list_find(int *loc, list_t *list, const char c);
+/* get info of list */
+extern int llist_get_nitems(size_t *nitems, llist_t *node_root);
+extern int llist_find(int *loc, llist_t *node_root, const void *data, const size_t size);
 /* modify list */
-extern int list_insert(list_t **list, const size_t loc, const char c);
-extern int list_remove(list_t **list, const size_t loc);
+extern int llist_insert(llist_t **node_root, const size_t loc, void *data, const size_t size, bool do_copy);
+extern int llist_remove(llist_t **node_root, const size_t loc);
 
 #endif // LINKED_LIST_H
