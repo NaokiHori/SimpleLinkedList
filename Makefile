@@ -1,6 +1,5 @@
 CC       := cc
 CFLAGS   := -O3 -std=c99 -Wall -Wextra
-# CFLAGS   := -O0 -g -std=c99 -Wall -Wextra
 DEPEND   := -MMD
 INCLUDES := -Iinclude
 SRCSDIR  := src

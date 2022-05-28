@@ -28,32 +28,42 @@ int llist_get_nitems(size_t *nitems, llist_t *node_root){
    *   node_root: intent(in)
    * return:
    *   RETVAL_SUCCESS: success
-   *   RETVAL_FAILURE: too long linked list
+   *   RETVAL_FAILURE: too long (> NITEMS_MAX) linked list
    */
   // iterate until the current node is not allocated,
   //   i.e., node_curr == NULL
   llist_t *node_curr = node_root;
-  *nitems = 0;
-  while(node_curr != NULL){
-    (*nitems)++;
-    node_curr = node_curr->next;
-    if((*nitems) == NITEMS_MAX){
+  for(*nitems = 0; node_curr != NULL; node_curr = node_curr->next, (*nitems)++){
+    // abort when nitems is too large,
+    //   which is to avoid infinte loop
+    if(*nitems == NITEMS_MAX){
       return RETVAL_FAILURE;
     }
   }
   return RETVAL_SUCCESS;
 }
 
-int llist_find(int *loc, llist_t *node_root, const void *data, const size_t data_size){
+int llist_find(int *loc, llist_t *node_root, const void *pattern, const size_t pattern_size){
   /*
-   * find "data" in the given list,
+   * find "pattern" in the given list,
    *   whose root is "node_root"
    *
    * when it is found,
-   *   its location is assigned to "loc"
+   *   its location of the node is assigned to "loc"
    * otherwise -1 is set to "loc"
-   * WARNING: function returns RETVAL_SUCCESS,
-   *   even if the pattern is not found
+   *
+   * NOTE: "not found" is an expected result
+   *   and thus return RETVAL_SUCCESS
+   * RETVAL_FAILURE is used for severer errors
+   *   such as unexpected NULL detections
+   *
+   * WARNING: all allocated nodes are assumed to have
+   *   data whose address is not NULL
+   * Thus comparing NULLs
+   *   (node_curr->data = NULL v.s. pattern = NULL) fails
+   *
+   * WARNING: user is responsible for giving
+   *   consistent "pattern" (buffer) and "pattern_size" (buffer size)
    *
    * param:
    *   loc:       intent(out)
@@ -62,46 +72,64 @@ int llist_find(int *loc, llist_t *node_root, const void *data, const size_t data
    *   data_size: intent(in)
    * return :
    *   RETVAL_SUCCESS: checked all (found or not found does not matter)
-   *   RETVAL_FAILURE: too long linked list
+   *   RETVAL_FAILURE: too long linked list, NULL comparison
    */
-  llist_t *node_curr = node_root;
-  // assume not found
-  *loc = -1;
-  // loop
+  /* 1. error check */
+  // memcmp does not allow NULL
+  if(pattern == NULL){
+    return RETVAL_FAILURE;
+  }
+  // comparing zero-size patterns is useless
+  if(pattern_size == 0){
+    return RETVAL_FAILURE;
+  }
+  /* 2. loop */
+  // iterate
   //   1. as long as node is allocated
   //   2. until pattern is found
   //   3. until cnt == NITEMS_MAX
+  *loc = -1; // assume not found
+  llist_t *node_curr = node_root;
   for(size_t cnt = 0; node_curr != NULL; node_curr = node_curr->next, cnt++){
     // do not compare if data sizes are different
-    if(node_curr->data_size == data_size){
+    if(node_curr->data_size == pattern_size){
+      // sanitise
+      // memcmp does not allow NULL
+      // check NULL of data (pattern)
+      if(node_curr->data == NULL){
+        return RETVAL_FAILURE;
+      }
       // compare
-      if(memcmp(node_curr->data, data, data_size) == 0){
+      if(memcmp(node_curr->data, pattern, pattern_size) == 0){
         // two buffers have an identical pattern,
         //   so return its location
         //   and get out of the loop
         *loc = cnt;
         return RETVAL_SUCCESS;
       }
-      // too large cnt
+      // abort when cnt is too large,
+      //   which is to avoid infinte loop
       if(cnt == NITEMS_MAX){
         return RETVAL_FAILURE;
       }
     }
   }
-  // not found
+  // reach here if pattern not found
+  // NOTE: "not found" is an expected result
+  //   and thus return RETVAL_SUCCESS
   return RETVAL_SUCCESS;
 }
 
 int llist_insert(llist_t **node_root, const size_t loc, void *data, const size_t data_size, bool do_copy){
   /*
-   * insert a node having data "data"
+   * insert a node which contains data "data"
    *   at the given location (index) "loc"
    *
    * do nothing and return RETVAL_FAILURE
    *   if the specified location is out-of-range
    *
    * param:
-   *   node_root: intent(int/out)
+   *   node_root: intent(in/out)
    *   loc:       intent(in)
    *   data:      intent(in)
    *   data_size: intent(in)
@@ -112,6 +140,7 @@ int llist_insert(llist_t **node_root, const size_t loc, void *data, const size_t
    */
   /* 1. error handlings */
   {
+    // already too many nodes
     size_t nitems;
     if(llist_get_nitems(&nitems, *node_root) == RETVAL_FAILURE){
       return RETVAL_FAILURE;
@@ -186,7 +215,7 @@ int llist_remove(llist_t **node_root, const size_t loc){
    *   if the specified location is out-of-range
    *
    * param:
-   *   node_root: intent(int/out)
+   *   node_root: intent(in/out)
    *   loc:       intent(in)
    * return:
    *   RETVAL_SUCCESS: successfully appended

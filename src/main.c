@@ -10,29 +10,37 @@ static int output(llist_t *node_root);
 
 int main(void){
   // original data on stack
-  const char string[] = {"ello worl"};
+  char string[] = {"abcd efgh"};
   llist_t *node_root = NULL;
-  // create
+  // create linked list (append to the head of it)
   {
     printf("--- create list ---\n");
     const size_t nitems_string = strlen(string);
     for(size_t i = 0; i < nitems_string; i++){
-      int retval;
-      // check current number of items of the linked list
-      // and append a node to the end of it
-      size_t loc;
-      retval = llist_get_nitems(&loc, node_root);
-      if(retval != 0){
-        printf("llist_get_nitems error\n");
-      }
-      // assign address of the original string
-      retval = llist_insert(&node_root, loc, (void *)(string+loc), sizeof(char), false);
-      if(retval != 0){
-        printf("llist_insert error\n");
-      }
+      // pass reference to the original string
+      llist_insert(&node_root, 0, (void *)(string+nitems_string-i-1), sizeof(char), false);
       output(node_root);
     }
     printf("-------------------\n");
+  }
+  // changing the original string
+  //   results in the change of linked list
+  //   since the data is just a reference (address)
+  {
+    printf("--- modify original string ---\n");
+    printf("%s -> ", string);
+    string[0] = 'e';
+    string[1] = 'l';
+    string[2] = 'l';
+    string[3] = 'o';
+    string[4] = ' ';
+    string[5] = 'w';
+    string[6] = 'o';
+    string[7] = 'r';
+    string[8] = 'l';
+    printf("%s\n", string);
+    output(node_root);
+    printf("------------------------------\n");
   }
   // insert data to the defined linked list
   // NOTE: copy data and assign to the list
@@ -40,39 +48,25 @@ int main(void){
     printf("--- insert ---\n");
     size_t loc;
     char c;
-    int retval;
     // intermediate
     loc = 4;
     c = ',';
-    retval = llist_insert(&node_root, loc, &c, sizeof(char), true);
-    if(retval != 0){
-      printf("llist_insert error\n");
-    }
+    llist_insert(&node_root, loc, &c, sizeof(char), true);
     output(node_root);
     // head
     loc = 0;
     c = 'h';
-    retval = llist_insert(&node_root, loc, &c, sizeof(char), true);
-    if(retval != 0){
-      printf("llist_insert error\n");
-    }
+    llist_insert(&node_root, loc, &c, sizeof(char), true);
     output(node_root);
     // tail
     llist_get_nitems(&loc, node_root);
     c = 'd';
-    retval = llist_insert(&node_root, loc, &c, sizeof(char), true);
-    if(retval != 0){
-      printf("llist_insert error\n");
-    }
+    llist_insert(&node_root, loc, &c, sizeof(char), true);
     output(node_root);
     // out-of-range
     loc = 100;
     c = 'x';
-    printf("error expected\n");
-    retval = llist_insert(&node_root, loc, &c, sizeof(char), true);
-    if(retval != 0){
-      printf("llist_insert error\n");
-    }
+    llist_insert(&node_root, loc, &c, sizeof(char), true);
     output(node_root);
     printf("--------------\n");
   }
@@ -81,70 +75,40 @@ int main(void){
     printf("--- find ---\n");
     int loc;
     char c;
-    int retval;
     c = 'h';
-    retval = llist_find(&loc, node_root, &c, sizeof(char));
-    if(retval != 0){
-      printf("llist_find error\n");
-    }
+    llist_find(&loc, node_root, &c, sizeof(char));
     printf("'%c' is found at index % 3d\n", c, loc);
     c = 'o';
-    retval = llist_find(&loc, node_root, &c, sizeof(char));
-    if(retval != 0){
-      printf("llist_find error\n");
-    }
+    llist_find(&loc, node_root, &c, sizeof(char));
     printf("'%c' is found at index % 3d\n", c, loc);
     c = 'r';
-    retval = llist_find(&loc, node_root, &c, sizeof(char));
-    if(retval != 0){
-      printf("llist_find error\n");
-    }
+    llist_find(&loc, node_root, &c, sizeof(char));
     printf("'%c' is found at index % 3d\n", c, loc);
     c = 'i';
-    retval = llist_find(&loc, node_root, &c, sizeof(char));
-    if(retval != 0){
-      printf("llist_find error\n");
-    }
+    llist_find(&loc, node_root, &c, sizeof(char));
     printf("'%c' is found at index % 3d\n", c, loc);
     printf("------------\n");
   }
   // remove specific location
   {
     printf("--- remove ---\n");
-    int retval;
     size_t loc;
     // remove intermediate
     loc = 5;
-    retval = llist_remove(&node_root, loc);
-    if(retval != 0){
-      printf("llist_remove error\n");
-    }
+    llist_remove(&node_root, loc);
     output(node_root);
     // remove head
     loc = 0;
-    retval = llist_remove(&node_root, loc);
-    if(retval != 0){
-      printf("llist_remove error\n");
-    }
+    llist_remove(&node_root, loc);
     output(node_root);
     // remove tail
-    retval = llist_get_nitems(&loc, node_root);
-    if(retval != 0){
-      printf("llist_get_nitems error\n");
-    }
+    llist_get_nitems(&loc, node_root);
     loc -= 1;
-    retval = llist_remove(&node_root, loc);
-    if(retval != 0){
-      printf("llist_remove error\n");
-    }
+    llist_remove(&node_root, loc);
     output(node_root);
     // out-of-range
     loc = 100;
-    printf("error expected\n");
-    retval = llist_remove(&node_root, loc);
-    if(retval != 0){
-      printf("llist_remove error\n");
-    }
+    llist_remove(&node_root, loc);
     output(node_root);
     printf("--------------\n");
   }
@@ -153,18 +117,11 @@ int main(void){
     printf("--- remove all ---\n");
     while(true){
       size_t nitems;
-      int retval;
-      retval = llist_get_nitems(&nitems, node_root);
-      if(retval != 0){
-        printf("llist_get_nitems error\n");
-      }
+      llist_get_nitems(&nitems, node_root);
       if(nitems == 0){
         break;
       }else{
-        retval = llist_remove(&node_root, 0);
-        if(retval != 0){
-          printf("llist_remove error\n");
-        }
+        llist_remove(&node_root, 0);
       }
     }
     output(node_root);
