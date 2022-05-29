@@ -11,7 +11,7 @@ jobs:
     name: Cunit
     runs-on: ubuntu-latest
     container:
-      image: naokihori/alpine-cunit:latest
+      image: naokihori/alpine-cunit:1.0
       volumes:
         - :/home
       options: --rm
@@ -44,7 +44,7 @@ jobs:
     name: Valgrind
     runs-on: ubuntu-latest
     container:
-      image: naokihori/alpine-valgrind:latest
+      image: naokihori/alpine-valgrind:1.0
       volumes:
         - :/home
       options: --rm

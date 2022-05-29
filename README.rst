@@ -2,7 +2,7 @@
 SimpleLinkedList
 ################
 
-|License|_ |WorkflowStatus|_ |UnitTest|_ |MemoryLeak|_
+|License|_ |WorkflowStatus|_ |UnitTest|_ |MemoryLeak|_ |LastCommit|_
 
 .. |License| image:: https://img.shields.io/github/license/NaokiHori/SimpleLinkedList
 .. _License: https://opensource.org/licenses/MIT
@@ -16,6 +16,9 @@ SimpleLinkedList
 .. |MemoryLeak| image:: https://github.com/NaokiHori/SimpleLinkedList/blob/artifacts/.github/workflows/artifacts/badge_valgrind.svg
 .. _MemoryLeak: https://github.com/NaokiHori/Alpine-Dockerfiles/tree/valgrind
 
+.. |LastCommit| image:: https://img.shields.io/github/last-commit/NaokiHori/SimpleLinkedList/master
+.. _LastCommit: https://github.com/NaokiHori/SimpleLinkedList/commits/master
+
 Linked list implementation in C99 with the following (minimal) functions
 
 * Insertion
@@ -26,7 +29,7 @@ Linked list implementation in C99 with the following (minimal) functions
 
 * Counting number of items
 
-All functions are tested using `CUint <http://cunit.sourceforge.net>`_, and proper memory allocations and deallocations are checked using `Valgrind <https://valgrind.org>`_ (and reflected as badged at the top).
+All functions are tested using `CUint <http://cunit.sourceforge.net>`_, and proper memory allocations and deallocations are checked using `Valgrind <https://valgrind.org>`_ (and reflected as badges at the top).
 These tests are automated using `GitHub Actions <https://docs.github.com/en/actions>`_ under Ubuntu and Alpine Linux environments.
 The following actions are used
 

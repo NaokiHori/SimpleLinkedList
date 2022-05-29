@@ -8,11 +8,10 @@ INCLUDES   := -Iinclude \
 							-I$(PRJCT_ROOT)/src
 LIBS			 := -L/usr/local/lib \
 							-lcunit
-SRC_DFLT   := ../src/memory.c
-SRCS1      := $(SRC_DFLT) src/get_nitems.c
-SRCS2      := $(SRC_DFLT) src/find.c
-SRCS3      := $(SRC_DFLT) src/insert.c
-SRCS4      := $(SRC_DFLT) src/remove.c
+SRCS1      := src/get_nitems.c
+SRCS2      := src/find.c
+SRCS3      := src/insert.c
+SRCS4      := src/remove.c
 TARGET1    := test_get_nitems.out
 TARGET2    := test_find.out
 TARGET3    := test_insert.out

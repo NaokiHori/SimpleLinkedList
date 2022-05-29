@@ -2,6 +2,7 @@
 #define LINKED_LIST_H
 
 #include <stddef.h>
+#include <stdbool.h>
 
 typedef struct llist_t_ {
   // pointer to the stored data

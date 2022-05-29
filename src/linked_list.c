@@ -4,7 +4,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <limits.h>
-#include "memory.h"
 #include "linked_list.h"
 
 
@@ -15,6 +14,21 @@
 // errorcode (return value)
 #define RETVAL_SUCCESS ( 0)
 #define RETVAL_FAILURE (-1)
+
+static void *my_calloc(const size_t count, const size_t size){
+  FILE *stream = stderr;
+  void *ptr = calloc(count, size);
+  if(ptr == NULL){
+    fprintf(stream, "memory allocation error\n");
+    exit(EXIT_FAILURE);
+  }
+  return ptr;
+}
+
+static void my_free(void *ptr){
+  free(ptr);
+  ptr = NULL;
+}
 
 int llist_get_nitems(size_t *nitems, llist_t *node_root){
   /*
