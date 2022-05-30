@@ -19,6 +19,8 @@ SimpleLinkedList
 .. |LastCommit| image:: https://img.shields.io/github/last-commit/NaokiHori/SimpleLinkedList/master
 .. _LastCommit: https://github.com/NaokiHori/SimpleLinkedList/commits/master
 
+.. image:: https://github.com/NaokiHori/SimpleLinkedList/blob/master/coverimage.png
+
 Linked list implementation in C99 with the following (minimal) functions
 
 * Insertion
