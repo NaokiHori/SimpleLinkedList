@@ -44,16 +44,27 @@ int llist_get_nitems(size_t *nitems, llist_t *node_root){
    *   RETVAL_SUCCESS: success
    *   RETVAL_FAILURE: too long (> NITEMS_MAX) linked list
    */
-  // iterate until the current node is not allocated,
-  //   i.e., node_curr == NULL
+  /* ! set initial node, root node ! 2 ! */
   llist_t *node_curr = node_root;
-  for(*nitems = 0; node_curr != NULL; node_curr = node_curr->next, (*nitems)++){
-    // abort when nitems is too large,
-    //   which is to avoid infinte loop
-    if(*nitems == NITEMS_MAX){
-      return RETVAL_FAILURE;
+  *nitems = 0;
+  /* ! move to the next node until finding a node which is not allocated ! 16 ! */
+  while(true){
+    if(node_curr == NULL){
+      // current node is not allocated, meaning we are out of list now
+      break;
+    }else{
+      // current node is allocated already
+      // move current pointer to the next
+      node_curr = node_curr->next;
+      // increment
+      (*nitems)++;
+      // abort when nitems is too large
+      if(*nitems == NITEMS_MAX){
+        return RETVAL_FAILURE;
+      }
     }
   }
+  /* ! return llist_get_nitems successfully ! 1 !*/
   return RETVAL_SUCCESS;
 }
 
@@ -88,7 +99,7 @@ int llist_find(int *loc, llist_t *node_root, const void *pattern, const size_t p
    *   RETVAL_SUCCESS: checked all (found or not found does not matter)
    *   RETVAL_FAILURE: too long linked list, NULL comparison
    */
-  /* 1. error check */
+  /* ! 1. error checks ! 8 !*/
   // memcmp does not allow NULL
   if(pattern == NULL){
     return RETVAL_FAILURE;
