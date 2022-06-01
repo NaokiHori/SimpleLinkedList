@@ -143,7 +143,7 @@ static int output(llist_t *node_root){
   fprintf(stream, "list (nitems %3zu): ", nitems);
   // 2. walk through the linked list and print
   llist_t *node_curr = node_root;
-  for(size_t i = 0; i < nitems; node_curr = node_curr->next, i++){
+  for(size_t i = 0; i < nitems; node_curr = node_curr->node_next, i++){
     // regard void pointer "data" as a pointer to char
     fprintf(stream, "%c", *(char *)(node_curr->data));
   }

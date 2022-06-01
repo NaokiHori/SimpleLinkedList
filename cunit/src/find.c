@@ -17,7 +17,7 @@ void my_setUp(llist_t ***nodes, const size_t nitems, const bool is_null_data){
     }
   }
   for(size_t i = 0; i < nitems-1; i++){
-    (*nodes)[i]->next = (*nodes)[i+1];
+    (*nodes)[i]->node_next = (*nodes)[i+1];
   }
 }
 

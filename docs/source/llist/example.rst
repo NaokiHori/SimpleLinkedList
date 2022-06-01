@@ -2,6 +2,8 @@
 Example
 =======
 
+Some example usages are shown here.
+
 Imagine we have two sets of data
 
 .. code-block:: c

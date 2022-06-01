@@ -4,15 +4,17 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-typedef struct llist_t_ {
+typedef struct llist_t_ llist_t;
+
+struct llist_t_ {
   // pointer to the stored data
   void *data;
   // size of data
   size_t data_size;
   bool data_is_copied;
   // pointer to the next node
-  void *next;
-} llist_t;
+  llist_t *node_next;
+};
 
 /* get info of list */
 extern int llist_get_nitems(size_t *nitems, llist_t *node_root);

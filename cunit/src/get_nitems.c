@@ -47,7 +47,7 @@ static void test_llist_get_nitems_case2(void){
       nodes[i] = my_calloc(1, sizeof(llist_t));
     }
     for(size_t i = 0; i < nitems_ans-1; i++){
-      nodes[i]->next = nodes[i+1];
+      nodes[i]->node_next = nodes[i+1];
     }
   }
   int retval = llist_get_nitems(&nitems, nodes[0]);
@@ -75,7 +75,7 @@ static void test_llist_get_nitems_case3(void){
       nodes[i] = my_calloc(1, sizeof(llist_t));
     }
     for(size_t i = 0; i < nitems_ans-1; i++){
-      nodes[i]->next = nodes[i+1];
+      nodes[i]->node_next = nodes[i+1];
     }
   }
   int retval = llist_get_nitems(&nitems, nodes[0]);
@@ -102,8 +102,8 @@ static void test_llist_get_nitems_case4(void){
       nodes[i] = my_calloc(1, sizeof(llist_t));
     }
     // node 0 points to 1, and vice versa
-    nodes[0]->next = nodes[1];
-    nodes[1]->next = nodes[0];
+    nodes[0]->node_next = nodes[1];
+    nodes[1]->node_next = nodes[0];
   }
   int retval = llist_get_nitems(&nitems, nodes[0]);
   CU_ASSERT(retval_ans == retval);

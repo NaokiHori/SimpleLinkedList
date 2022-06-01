@@ -15,7 +15,7 @@ void my_setUp(llist_t ***nodes, const char str[]){
     (*nodes)[i]->data_is_copied = true;
   }
   for(size_t i = 0; i < nitems-1; i++){
-    (*nodes)[i]->next = (*nodes)[i+1];
+    (*nodes)[i]->node_next = (*nodes)[i+1];
   }
 }
 
@@ -26,7 +26,7 @@ void my_tearDown(llist_t **nodes){
   llist_t *node_curr = nodes[0];
   llist_t *node_next = NULL;
   while(node_curr != NULL){
-    node_next = node_curr->next;
+    node_next = node_curr->node_next;
     my_free(node_curr->data);
     my_free(node_curr);
     node_curr = node_next;
@@ -41,7 +41,7 @@ static char *from_llist_to_str(llist_t *node_root){
   llist_t *node_curr = node_root;
   for(size_t i = 0; i < nitems; i++){
     str[i] = *(char *)(node_curr->data);
-    node_curr = node_curr->next;
+    node_curr = node_curr->node_next;
   }
   str[nitems] = '\0';
   return str;

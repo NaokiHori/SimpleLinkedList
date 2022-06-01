@@ -55,7 +55,7 @@ int llist_get_nitems(size_t *nitems, llist_t *node_root){
     }else{
       // current node is allocated already
       // move current pointer to the next
-      node_curr = node_curr->next;
+      node_curr = node_curr->node_next;
       // increment
       (*nitems)++;
       // abort when nitems is too large
@@ -115,7 +115,7 @@ int llist_find(int *loc, llist_t *node_root, const void *pattern, const size_t p
   //   3. until cnt == NITEMS_MAX
   *loc = -1; // assume not found
   llist_t *node_curr = node_root;
-  for(size_t cnt = 0; node_curr != NULL; node_curr = node_curr->next, cnt++){
+  for(size_t cnt = 0; node_curr != NULL; node_curr = node_curr->node_next, cnt++){
     // do not compare if data sizes are different
     if(node_curr->data_size == pattern_size){
       // sanitise
@@ -187,7 +187,7 @@ int llist_insert(llist_t **node_root, const size_t loc, void *data, const size_t
     //   1. current node as previous node
     //   2. next    node as current  node
     node_prev = node_curr;
-    node_curr = node_curr->next;
+    node_curr = node_curr->node_next;
   }
   /* 3. initialise new node */
   llist_t *node_new = NULL;
@@ -213,8 +213,8 @@ int llist_insert(llist_t **node_root, const size_t loc, void *data, const size_t
     // to
     //   |new (root)| -> |curr      |
     // to do so,
-    //   1. root       = new
-    //   2. new ->next = curr
+    //   1. root            = new
+    //   2. new ->node_next = curr
     *node_root = node_new;
   }else{
     // this is not the root node
@@ -223,11 +223,11 @@ int llist_insert(llist_t **node_root, const size_t loc, void *data, const size_t
     // to
     //   |prev| -> |new | -> |curr|
     // to do so,
-    //   1. prev->next = new
-    //   2. new ->next = curr
-    node_prev->next = node_new;
+    //   1. prev->node_next = node_new
+    //   2. new ->node_next = node_curr
+    node_prev->node_next = node_new;
   }
-  node_new->next = node_curr;
+  node_new->node_next = node_curr;
   return RETVAL_SUCCESS;
 }
 
@@ -272,7 +272,7 @@ int llist_remove(llist_t **node_root, const size_t loc){
     //   1. current node as previous node
     //   2. next    node as current  node
     node_prev = node_curr;
-    node_curr = node_curr->next;
+    node_curr = node_curr->node_next;
   }
   /* 3. update connection */
   if(node_prev == NULL){
@@ -283,7 +283,7 @@ int llist_remove(llist_t **node_root, const size_t loc){
     //                   |next(root)|
     // to do so,
     //   root = next
-    *node_root = node_curr->next;
+    *node_root = node_curr->node_next;
   }else{
     // this is not the root node
     // update
@@ -291,8 +291,8 @@ int llist_remove(llist_t **node_root, const size_t loc){
     // to
     //   |prev| ->           |next|
     // to do so,
-    //   prev->next = next
-    node_prev->next = node_curr->next;
+    //   prev->node_next = node_next
+    node_prev->node_next = node_curr->node_next;
   }
   /*4. clean-up */
   if(node_curr->data_is_copied){
