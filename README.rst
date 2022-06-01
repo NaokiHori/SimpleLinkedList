@@ -2,16 +2,22 @@
 SimpleLinkedList
 ################
 
-|License|_ |DocDeployment|_ |WorkflowStatus|_ |UnitTest|_ |MemoryLeak|_ |LastCommit|_
+|License|_
+
+|DocDeployment|_
+
+|WorkflowStatus|_ |UnitTest|_ |MemoryLeak|_
+
+|LastCommit|_
 
 .. |License| image:: https://img.shields.io/github/license/NaokiHori/SimpleLinkedList
 .. _License: https://opensource.org/licenses/MIT
 
-.. |DocDeployment| image:: https://img.shields.io/github/deployments/NaokiHori/SimpleLinkedList/github-pages
+.. |DocDeployment| image:: https://github.com/NaokiHori/SimpleLinkedList/actions/workflows/documentation.yml/badge.svg
 .. _DocDeployment: https://naokihori.github.io/SimpleLinkedList/
 
-.. |WorkflowStatus| image:: https://img.shields.io/github/workflow/status/NaokiHori/SimpleLinkedList/CI
-.. _WorkflowStatus: https://github.com/NaokiHori/SimpleLinkedList/actions
+.. |WorkflowStatus| image:: https://github.com/NaokiHori/SimpleLinkedList/actions/workflows/ci.yml/badge.svg?branch=master
+.. _WorkflowStatus: https://github.com/NaokiHori/SimpleLinkedList/actions/workflows/ci.yml
 
 .. |UnitTest| image:: https://github.com/NaokiHori/SimpleLinkedList/blob/artifacts/.github/workflows/artifacts/badge_cunit.svg
 .. _UnitTest: https://github.com/NaokiHori/Alpine-Dockerfiles/tree/cunit
@@ -48,7 +54,7 @@ The following actions are used
 
 * `ad-m/github-push-action <https://github.com/ad-m/github-push-action>`_
 
-*Concise, consistent, and legible badges* are created using `Shields.io <https://shields.io>`_.
+Badges are partially created using `Shields.io <https://shields.io>`_.
 
 **********
 Dependency
