@@ -10,7 +10,7 @@ SimpleLinkedList
 .. |DocDeployment| image:: https://img.shields.io/github/deployments/NaokiHori/SimpleLinkedList/github-pages
 .. _DocDeployment: https://naokihori.github.io/SimpleLinkedList/
 
-.. |WorkflowStatus| image:: https://img.shields.io/github/workflow/status/NaokiHori/SimpleLinkedList/CI/master.svg
+.. |WorkflowStatus| image:: https://img.shields.io/github/workflow/status/NaokiHori/SimpleLinkedList/CI
 .. _WorkflowStatus: https://github.com/NaokiHori/SimpleLinkedList/actions
 
 .. |UnitTest| image:: https://github.com/NaokiHori/SimpleLinkedList/blob/artifacts/.github/workflows/artifacts/badge_cunit.svg
