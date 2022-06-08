@@ -28,6 +28,10 @@ SimpleLinkedList
 
 .. image:: https://github.com/NaokiHori/SimpleLinkedList/blob/master/coverimage.png
 
+********
+Overview
+********
+
 Linked list implementation in C99 with the following (minimal) functions
 
 * Insertion
@@ -38,8 +42,10 @@ Linked list implementation in C99 with the following (minimal) functions
 
 * Counting number of items
 
+The main objective of this project was to study CI/CD of C projects and related stuffs (GitHub Actions).
 All functions are tested using `CUint <http://cunit.sourceforge.net>`_, and proper memory allocations and deallocations are checked using `Valgrind <https://valgrind.org>`_ (and reflected as badges at the top).
 These tests are automated using `GitHub Actions <https://docs.github.com/en/actions>`_ under Ubuntu and Alpine Linux environments.
+
 The following actions are used
 
 * `actions/checkout <https://github.com/actions/checkout>`_
@@ -92,7 +98,7 @@ Without Docker, one needs a C compiler (later than C99), `git`, and `make` local
 
 Both gives the same output:
 
-.. code-block:: console
+.. code-block:: text
 
    --- create list ---
    list (nitems   1): h
@@ -133,29 +139,94 @@ Both gives the same output:
 
 Check `src/main.c <https://github.com/NaokiHori/SimpleLinkedList/blob/master/src/main.c>`_ for details.
 
-**********
-Dependency
-**********
+*****
+Tests
+*****
 
-* Linked list
+Unit tests and memory leak checks are performed `automatically <https://github.com/NaokiHori/SimpleLinkedList/blob/master/.github/workflows/ci.yml>`_.
+Users can perform these tests by themselves.
 
-   C compiler (later than C99), no dependency on external libraries
+* Unit tests
 
-* Unit test
+   Although not necessary, I recommend to use a `CUnit Docker environment <https://hub.docker.com/r/naokihori/alpine-cunit>`_.
 
-   CUint, in addition to C compiler
+   .. code-block:: console
 
-* Memory leak check
+      $ mkdir /path/to/your/working/directory
 
-   Valgrind, in addition to C compiler
+      $ cd /path/to/your/working/directory
 
-Docker images for CUint and Valgrind can be found here:
+      $ git clone https://github.com/NaokiHori/SimpleLinkedList
 
-* https://github.com/NaokiHori/Alpine-Dockerfiles
+      $ cd SimpleLinkedList
 
-* https://hub.docker.com/r/naokihori/alpine-cunit
+      $ docker build -t naokihori/alpine-cunit:1.0 .
 
-* https://hub.docker.com/r/naokihori/alpine-valgrind
+      $ docker run -it --rm -v $(PWD):/home naokihori/alpine-cunit:1.0
+
+      # cd cunit
+
+      # make clean && make
+
+      # ./test_get_nitems.out
+
+   giving
+
+   .. code-block:: text
+
+      Starting CUnit test:
+       ./test_remove.out
+      JUnit XML:
+       test_remove.out-Results.xml
+
+      Running Suite : remove
+           Running Test : test_llist_remove_case0 ..PASSED
+           Running Test : test_llist_remove_case1 ..PASSED
+           Running Test : test_llist_remove_case2 ..PASSED
+           Running Test : test_llist_remove_case3 ..PASSED
+           Running Test : test_llist_remove_case4 ..PASSED
+
+      Run Summary       -      Run    Failed  Inactive   Skipped
+           Suites       :        1         0         0         0
+           Asserts      :       32         0       n/a       n/a
+           Tests        :        5         0         0         0
+
+      Elapsed Time: 0.000(s)
+
+* Memory leak checks
+
+   Although not necessary, I recommend to use a `Valgrind Docker environment <https://hub.docker.com/r/naokihori/alpine-valgrind>`_.
+
+   .. code-block:: console
+
+      $ mkdir /path/to/your/working/directory
+
+      $ cd /path/to/your/working/directory
+
+      $ git clone https://github.com/NaokiHori/SimpleLinkedList
+
+      $ cd SimpleLinkedList
+
+      $ docker build -t naokihori/alpine-valgrind:1.0 .
+
+      $ docker run -it --rm -v $(PWD):/home naokihori/alpine-valgrind:1.0
+
+      # make clean && make
+
+      # valgrind \
+          --leak-check=full \
+          --error-exitcode=1 \
+          --xml=yes \
+          --xml-file=valgrind.xml \
+          ./a.out
+
+   giving a file ``valgrind.xml``, in which results are reported.
+
+For detailed usages of the used Docker images, please refer to:
+
+* https://github.com/NaokiHori/Alpine-Dockerfiles/tree/cunit
+
+* https://github.com/NaokiHori/Alpine-Dockerfiles/tree/valgrind
 
 *************************
 Usage in external library
@@ -166,11 +237,4 @@ No installation is needed; After copying a header file ``include/linked_list.h``
 
 An example can be found in ``src/main.c``, where all functions are extensively used.
 Also please refer to the `documentation <https://naokihori.github.io/SimpleLinkedList>`_.
-
-******
-Others
-******
-
-This project is mainly for my personal use.
-The main objective was to study CI/CD of C projects and related stuffs (GitHub Actions).
 
