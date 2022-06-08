@@ -8,6 +8,7 @@ on:
       - include/**
       - src/**
       - cunit/**
+      - .github/workflows/ci.yml
 
 jobs:
 
@@ -117,8 +118,8 @@ jobs:
             color="green"
           fi
           # prepare url
-          label="Tests"
-          message="$n_test%20tests,%20$n_failures%20failures,%20$n_error%20errors"
+          label="UnitTest"
+          message="${n_test}tests,${n_failures}failures,${n_error}errors"
           link=https://img.shields.io/badge/$label-$message-$color.svg
           echo $link
           wget --output-document=badge_cunit.svg "$link"
@@ -129,10 +130,10 @@ jobs:
           # if not found, no memory leaks
           label="MemoryLeak"
           if grep "<error>" valgrind.xml > /dev/null; then
-            message="Failed"
+            message="failed"
             color="red"
           else
-            message="Passing"
+            message="passing"
             color="green"
           fi
           link=https://img.shields.io/badge/$label-$message-$color.svg
