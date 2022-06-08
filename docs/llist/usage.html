@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Usage &#8212; SimpleLinkedList 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Example" href="example.html" />
+    <link rel="prev" title="Linked list" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">SimpleLinkedList</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=NaokiHori&repo=SimpleLinkedList&type=true&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Linked list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cunit.html">Unit testing - CUnit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../valgrind.html">Memory leak check - Valgrind</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Linked list</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Linked list</a></li>
+      <li>Next: <a href="example.html" title="next chapter">Example</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
+<p>All functions here are implemented under <a class="reference external" href="https://github.com/NaokiHori/SimpleLinkedList/blob/master/src/linked_list.c">src/linked_list.c</a>.</p>
+<section id="llist-get-nitems">
+<h2>llist_get_nitems<a class="headerlink" href="#llist-get-nitems" title="Permalink to this heading">¶</a></h2>
+<section id="description">
+<h3>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h3>
+<p>Compute number of items in the given linked list</p>
+</section>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">llist_get_nitems</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="o">*</span><span class="n">nitems</span><span class="p">,</span><span class="w"> </span><span class="n">llist_t</span><span class="w"> </span><span class="o">*</span><span class="n">node_root</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">nitems</span></code></p>
+<blockquote>
+<div><p>number of items (intent out)</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">node_root</span></code></p>
+<blockquote>
+<div><p>pointer to the root node (intent in)</p>
+</div></blockquote>
+</li>
+<li><p>return</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">0</span></code> for normal exit, <code class="docutils literal notranslate"><span class="pre">-1</span></code> for abnormal exit (<code class="docutils literal notranslate"><span class="pre">nitems</span></code> is larger than <code class="docutils literal notranslate"><span class="pre">USHRT_MAX</span></code>, which is usually <code class="docutils literal notranslate"><span class="pre">65535</span></code>)</p>
+</div></blockquote>
+</li>
+</ul>
+<details>
+<summary>
+More details</summary><p><cite>node_curr</cite> denotes a node which is focued currently.</p>
+<p>Initially we look at the root node.
+Note that the root node can be NULL, i.e., the linked list does not contain any node and the number of items is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">48</span><span class="w">  </span><span class="n">llist_t</span><span class="w"> </span><span class="o">*</span><span class="n">node_curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node_root</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">49</span><span class="w">  </span><span class="o">*</span><span class="n">nitems</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>One important feature is that <code class="docutils literal notranslate"><span class="pre">node_curr</span></code> is set to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> (not allocated) when it is not in the list, which is checked in this loop:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">51</span><span class="w">  </span><span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">52</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">node_curr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">53</span><span class="w">      </span><span class="c1">// current node is not allocated, meaning we are out of list now</span>
+<span class="linenos">54</span><span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">55</span><span class="w">    </span><span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="linenos">56</span><span class="w">      </span><span class="c1">// current node is allocated already</span>
+<span class="linenos">57</span><span class="w">      </span><span class="c1">// move current pointer to the next</span>
+<span class="linenos">58</span><span class="w">      </span><span class="n">node_curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node_curr</span><span class="o">-&gt;</span><span class="n">node_next</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">59</span><span class="w">      </span><span class="c1">// increment</span>
+<span class="linenos">60</span><span class="w">      </span><span class="p">(</span><span class="o">*</span><span class="n">nitems</span><span class="p">)</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">61</span><span class="w">      </span><span class="c1">// abort when nitems is too large</span>
+<span class="linenos">62</span><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="o">*</span><span class="n">nitems</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">NITEMS_MAX</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">63</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">RETVAL_FAILURE</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">64</span><span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">65</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">66</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">nitems</span></code> exceeds <code class="docutils literal notranslate"><span class="pre">NITEMS_MAX</span></code>, we abort the loop and return the function with failure.
+This is to avoid infinite loops which might happen if the list is circularly linked.</p>
+</div>
+<p>When the last node is successfully found, get out of the function with success</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">68</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">RETVAL_SUCCESS</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</details></section>
+</section>
+<section id="llist-find">
+<h2>llist_find<a class="headerlink" href="#llist-find" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h3>Description<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<p>Find a pattern in the given linked list</p>
+</section>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">llist_find</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">loc</span><span class="p">,</span><span class="w"> </span><span class="n">llist_t</span><span class="w"> </span><span class="o">*</span><span class="n">node_root</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pattern</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">pattern_size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">loc</span></code></p>
+<blockquote>
+<div><p>location (<code class="docutils literal notranslate"><span class="pre">loc</span></code>-th node) where the given pattern is found (intent out), <code class="docutils literal notranslate"><span class="pre">0</span></code> for root note
+<code class="docutils literal notranslate"><span class="pre">-1</span></code> is assigned when the pattern is not found</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">node_root</span></code></p>
+<blockquote>
+<div><p>pointer to the root node (intent in)</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pattern</span></code></p>
+<blockquote>
+<div><p>pointer to the pattern to be searched (intent in)</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pattern_size</span></code></p>
+<blockquote>
+<div><p>data size of <code class="docutils literal notranslate"><span class="pre">pattern</span></code></p>
+</div></blockquote>
+</li>
+<li><p>return</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code> for normal exit (<strong>irrespective</strong> to being found or not found), <code class="docutils literal notranslate"><span class="pre">-1</span></code> for abnormal exit (e.g., invalid input)</p>
+</li>
+</ul>
+<details>
+<summary>
+More details</summary><ol class="arabic">
+<li><p>Sanitise input</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pattern</span></code> cannot be <code class="docutils literal notranslate"><span class="pre">NULL</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pattern_size</span></code> cannot be <code class="docutils literal notranslate"><span class="pre">0</span></code></p></li>
+</ul>
+<p>They are implemented here</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">103</span><span class="w">  </span><span class="c1">// memcmp does not allow NULL</span>
+<span class="linenos">104</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">105</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">RETVAL_FAILURE</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">106</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">107</span><span class="w">  </span><span class="c1">// comparing zero-size patterns is useless</span>
+<span class="linenos">108</span><span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">pattern_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span><span class="w"></span>
+<span class="linenos">109</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">RETVAL_FAILURE</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">110</span><span class="w">  </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>pass</p></li>
+</ol>
+</details></section>
+</section>
+<section id="llist-insert">
+<h2>llist_insert<a class="headerlink" href="#llist-insert" title="Permalink to this heading">¶</a></h2>
+<section id="id3">
+<h3>Description<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<p>Insert a new node which contains the given data to the given linked list</p>
+</section>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">llist_insert</span><span class="p">(</span><span class="n">llist_t</span><span class="w"> </span><span class="o">**</span><span class="n">node_root</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">loc</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">do_copy</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">node_root</span></code></p>
+<blockquote>
+<div><p>pointer to the root node (intent in/out)</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loc</span></code></p>
+<blockquote>
+<div><p>location where the new node is inserted, <code class="docutils literal notranslate"><span class="pre">0</span></code> for inserting to the head of the list</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code></p>
+<blockquote>
+<div><p>pointer to the data to be added (intent in)</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data_size</span></code></p>
+<blockquote>
+<div><p>data size of <code class="docutils literal notranslate"><span class="pre">data</span></code></p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">do_copy</span></code></p>
+<blockquote>
+<div><p>copying <code class="docutils literal notranslate"><span class="pre">data</span></code> when being stored (using <code class="docutils literal notranslate"><span class="pre">memcpy</span></code>), or not (just storing the address of the original data)</p>
+</div></blockquote>
+</li>
+<li><p>return</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code> for normal exit (new node is successfully added), <code class="docutils literal notranslate"><span class="pre">-1</span></code> for abnormal exit (e.g., invalid input, too many nodes exist in the linked list)</p>
+</li>
+</ul>
+<details>
+<summary>
+More details</summary><p>pass</p>
+</details></section>
+</section>
+<section id="llist-remove">
+<h2>llist_remove<a class="headerlink" href="#llist-remove" title="Permalink to this heading">¶</a></h2>
+<section id="id5">
+<h3>Description<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<p>Remove a new node which contains the given data from the given linked list</p>
+</section>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">llist_remove</span><span class="p">(</span><span class="n">llist_t</span><span class="w"> </span><span class="o">**</span><span class="n">node_root</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">loc</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">node_root</span></code></p>
+<blockquote>
+<div><p>pointer to the root node (intent in/out)</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loc</span></code></p>
+<blockquote>
+<div><p>location where the node is removed, <code class="docutils literal notranslate"><span class="pre">0</span></code> for removing the head of the list</p>
+</div></blockquote>
+</li>
+<li><p>return</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code> for normal exit (the node is successfully removed), <code class="docutils literal notranslate"><span class="pre">-1</span></code> for abnormal exit (e.g., invalid input)</p>
+</li>
+</ul>
+<details>
+<summary>
+More details</summary><p>pass</p>
+</details></section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, Naoki Hori.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/llist/usage.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
